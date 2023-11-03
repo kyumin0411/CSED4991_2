@@ -257,17 +257,20 @@ def get_parser(mode='sup_active'):
     r" Dataset"
     parser.add_argument('--src_dataset', default='voc', choices=['cityscapes', 'GTA5', 'SYNTHIA', 'voc'],
                         help='source domain training dataset')
-    parser.add_argument('--src_data_dir', default='./data/VOCdevkit')
+    # parser.add_argument('--src_data_dir', default='./data/VOCdevkit')
+    parser.add_argument('--src_data_dir', default='/home/kyumin/data/VOCdevkit')
 
     parser.add_argument('--trg_dataset', default='voc', help='target domain dataset')
-    parser.add_argument('--trg_data_dir', default='./data/VOCdevkit')
+    # parser.add_argument('--trg_data_dir', default='./data/VOCdevkit')
+    parser.add_argument('--trg_data_dir', default='/home/kyumin/data/VOCdevkit')
     parser.add_argument('--trg_datalist', default='dataloader/init_data/voc/train_seed32.txt',
                         help='target domain training list')
     parser.add_argument('--region_dict', default='dataloader/init_data/voc/train_seed32.dict',
                         help='superpixel id (just range same as # superpixel per image')
 
     parser.add_argument('--val_dataset', default='voc', help='validation dataset')
-    parser.add_argument('--val_data_dir', default='./data/VOCdevkit')
+    # parser.add_argument('--val_data_dir', default='./data/VOCdevkit')
+    parser.add_argument('--val_data_dir', default='/home/kyumin/data/VOCdevkit')
     parser.add_argument('--val_datalist', default='dataloader/init_data/voc/val.txt', help='validation list')
     r" Dataset: augmentation"
     parser.add_argument('--train_transform', default=None)
