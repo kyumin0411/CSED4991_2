@@ -25,6 +25,7 @@ class ActiveTrainer(BaseTrainer):
 
     def eval(self, active_set, selection_iter):
         args = self.args
+        import pdb; pdb.set_trace()
         eval_dataset = active_set.trg_label_dataset
         r'''
         - unselected/dominant label 모두 ignore_class (255) 로 처리
