@@ -7,7 +7,6 @@ import sys
 from datetime import datetime
 import wandb
 import torch
-import pdb
 
 # custom
 from dataloader import get_active_dataset
@@ -37,7 +36,7 @@ def main(args):
     active_set.load_datalist(args.datalist_path)
     trainer.load_checkpoint(args.init_checkpoint, load_optimizer=args.load_optim)
 
-    # pdb.set_trace()
+    import pdb; pdb.set_trace()
     trainer.eval(active_set, selection_iter = (args.init_iteration - 1))
 
     # try:
