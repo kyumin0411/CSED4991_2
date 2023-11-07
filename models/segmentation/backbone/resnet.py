@@ -303,7 +303,7 @@ def resnet50deepstem(pretrained=False, progress=True, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _resnet_deepstem('resnet50deepstem', Bottleneck, [3, 4, 6, 3], pretrained, progress, pretrained_model = '/home/kyumin/checkpoint/resnet50_deepstem.pth',
+    return _resnet_deepstem('resnet50deepstem', Bottleneck, [3, 4, 6, 3], pretrained, progress, pretrained_model = '/home/kyumin/CSED4991_2/checkpoint/resnet50_deepstem.pth',
                    **kwargs)
 
 def resnet101(pretrained=False, progress=True, **kwargs):
@@ -326,7 +326,7 @@ def resnet101deepstem(pretrained=False, progress=True, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _resnet_deepstem('resnet101deepstem', Bottleneck, [3, 4, 23, 3], pretrained, progress, pretrained_model = '/home/kyumin/checkpoint/resnet101_deepstem.pth',
+    return _resnet_deepstem('resnet101deepstem', Bottleneck, [3, 4, 23, 3], pretrained, progress, pretrained_model = '/home/kyumin/CSED4991_2/checkpoint/resnet101_deepstem.pth',
                    **kwargs)
 
 

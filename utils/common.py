@@ -356,7 +356,7 @@ def get_parser(mode='sup_active'):
     parser.add_argument('--trim_multihot_boundary', action='store_true', default=False)
 
     r" logging"
-    parser.add_argument('-p', '--model_save_dir', default='/home/kyumin/checkpoint/default')
+    parser.add_argument('-p', '--model_save_dir', default='/home/kyumin/CSED4991_2/checkpoint/default')
     parser.add_argument('--save_feat_dir', type=str, default='log/default', help='Region feature directory.')
     parser.add_argument('--skip_first_eval', action='store_true', default=False)
     parser.add_argument('--wandb_tags', nargs='+', default=None)
