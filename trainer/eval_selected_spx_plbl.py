@@ -7,6 +7,7 @@ from torch_scatter import scatter, scatter_max
 from PIL import Image
 from skimage.segmentation import mark_boundaries
 import pickle
+import pdb
 
 from dataloader import get_dataset
 from dataloader.utils import DataProvider
@@ -37,6 +38,7 @@ class ActiveTrainer(ActiveTrainer):
         - unselected/dominant label 모두 ignore_class (255) 로 처리
         - multi-hot label 내부의 ignore_class 들은 모두 extra_label (=19) 부여
         '''
+        pdb.set_trace()
 
         ### round-1 에서 뽑혔던 superpixel id 들은 날려주기
         round1_path = args.datalist_path.replace("datalist_0{}.pkl".format(self.args.datalist_path.split('/')[-1][-5:-4]), "datalist_01.pkl")
