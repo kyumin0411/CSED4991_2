@@ -51,7 +51,7 @@ class ActiveTrainer(BaseTrainer):
         iou_helper = MeanIoU(self.num_classes + 1, self.args.ignore_idx)
         iou_helper._before_epoch()
         N = loader.__len__()
-
+        import pdb; pdb.set_trace()
         ### model forward
         self.net.eval()
         with torch.no_grad():
