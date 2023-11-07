@@ -37,7 +37,7 @@ def main(args):
     active_set.load_datalist(args.datalist_path)
     trainer.load_checkpoint(args.init_checkpoint, load_optimizer=args.load_optim)
 
-    pdb.set_trace()
+    # pdb.set_trace()
     trainer.eval(active_set, selection_iter = (args.init_iteration - 1))
 
     # try:
