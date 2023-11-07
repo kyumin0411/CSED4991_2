@@ -9,6 +9,7 @@ from trainer.base import BaseTrainer
 from models import get_model, freeze_bn
 from utils.miou_evalignore import IoUIgnore
 from utils.miou import MeanIoU
+import pdb
 
 
 class ActiveTrainer(BaseTrainer):
@@ -25,7 +26,6 @@ class ActiveTrainer(BaseTrainer):
 
     def eval(self, active_set, selection_iter):
         args = self.args
-        import pdb; pdb.set_trace()
         eval_dataset = active_set.trg_label_dataset
         r'''
         - unselected/dominant label 모두 ignore_class (255) 로 처리
@@ -39,6 +39,7 @@ class ActiveTrainer(BaseTrainer):
                                                 pin_memory=True,
                                                 drop_last=False)
         
+        pdb.set_trace()
         miou, iou_table_str  = self.inference(loader=self.eval_dataset_loader, prefix='evaluation')
 
         ''' file logging '''
@@ -49,12 +50,13 @@ class ActiveTrainer(BaseTrainer):
         return iou_table_str
 
     def inference(self, loader, prefix=''):
-        import pdb; pdb.set_trace()
+        pdb.set_trace()
         iou_helper = MeanIoU(self.num_classes + 1, self.args.ignore_idx)
         iou_helper._before_epoch()
         N = loader.__len__()
         ### model forward
         self.net.eval()
+        pdb.set_trace()
         with torch.no_grad():
             for iteration in trange(N):
                 batch = loader.__next__()
@@ -74,7 +76,7 @@ class ActiveTrainer(BaseTrainer):
                     'targets': labels
                 }
                 iou_helper._after_step(output_dict)
-
+        pdb.set_trace()
         iou_table = []
         ious = iou_helper._after_epoch()
         miou = np.mean(ious)
