@@ -41,7 +41,7 @@ class ActiveTrainer(BaseTrainer):
         
         pdb.set_trace()
         miou, iou_table_str  = self.inference(loader=self.eval_dataset_loader, prefix='evaluation')
-
+        pdb.set_trace()
         ''' file logging '''
         self.logger.info('[Evaluation Result]')
         self.logger.info('%s' % (iou_table_str))
@@ -109,7 +109,7 @@ class ActiveTrainer(BaseTrainer):
             pseudo_label (torch.Tensor): pseudo label map to be evaluated
                                          N x H x W
             '''
-
+        pdb.set_trace()
         N, C, H, W = inputs.shape
         outputs = inputs
         outputs = outputs.permute(0,2,3,1).reshape(N, -1, C) ### N x HW x C
@@ -119,6 +119,7 @@ class ActiveTrainer(BaseTrainer):
         nn_plbl = nn_plbl.reshape(N, -1)
 
         for i in range(N):
+            pdb.set_trace()
             '''
             outputs[i] : HW x C
             superpixels[i] : HW x 1
@@ -144,6 +145,7 @@ class ActiveTrainer(BaseTrainer):
             validex_to_pixdex = valid_mask.nonzero().squeeze(dim=1)
             nn_plbl[i, validex_to_pixdex] = plbl_win_candidtae
 
+        pdb.set_trace()
         nn_plbl = nn_plbl.reshape(N, H, W)
         
         return nn_plbl
