@@ -2,7 +2,6 @@ from PIL import Image
 import numpy as np
 import torch
 import os
-import pdb
 
 import imageio
 imageio.plugins.freeimage.download()
@@ -25,8 +24,8 @@ class RegionVOCOr(region_voc_or_tensor.RegionVOCOr):
             self.remove_dominant = True
 
     def __getitem__(self, index):
+        import pdb; pdb.set_trace()
         img_fname, lbl_fname, spx_fname = self.im_idx[index] ### warnning: index => superpixel-wise 로 정의됨
-        pdb.set_trace()
         ''' Load image, label, and superpixel '''
         image = Image.open(img_fname).convert('RGB')
         superpixel = self.open_spx(spx_fname)
