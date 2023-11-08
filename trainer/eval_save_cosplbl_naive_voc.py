@@ -28,7 +28,7 @@ class ActiveTrainer(ActiveTrainer):
         self.kernel = np.ones((3,3),np.uint8)
 
     def inference(self, loader, prefix=''):
-        pdb.set_trace()
+        # pdb.set_trace()
         args = self.args
         iou_helper = MeanIoU(self.num_classes+1, args.ignore_idx)
         iou_helper._before_epoch()
@@ -52,7 +52,7 @@ class ActiveTrainer(ActiveTrainer):
         self.net.set_return_feat()
         with torch.no_grad():
             for iteration in trange(N):
-                pdb.set_trace()
+                # pdb.set_trace()
                 batch = loader.__next__()
                 images = batch['images'].to(self.device, dtype=torch.float32)
                 labels = batch['labels'].to(self.device, dtype=torch.long)
@@ -71,9 +71,9 @@ class ActiveTrainer(ActiveTrainer):
 
                 r''' Save pseudo labels '''
                 fname = batch['fnames'][0][1]
-                # if iteration == 38: import pdb; pdb.set_trace()
+                if iteration == 38: import pdb; pdb.set_trace()
                 lbl_id = fname.split('/')[-1].split('.')[0]
-                pdb.set_trace()
+                # pdb.set_trace()
                 plbl_save = argmax_pseudo_label[0].cpu().numpy().astype('uint8')
                 im_size = batch['imsizes'][0][::-1]
                 pil_plbl_save = Image.fromarray(plbl_save)
@@ -94,7 +94,7 @@ class ActiveTrainer(ActiveTrainer):
                     vispil_plbl_save = tF.resize(vispil_plbl_save, im_size, InterpolationMode.NEAREST)
                     vispil_plbl_save.save("{}/{}.png".format(save_vid_dir, lbl_id))
 
-        pdb.set_trace()
+        # pdb.set_trace()
         iou_table = []
         precision_table = []
         recall_table = []
@@ -145,7 +145,7 @@ class ActiveTrainer(ActiveTrainer):
             pseudo_label (torch.Tensor): pseudo label map to be evaluated
                                          N x H x W
             '''
-        pdb.set_trace()
+        # pdb.set_trace()
         N, C, H, W = inputs.shape
         outputs = F.softmax(inputs, dim=1) ### N x C x H x W
         outputs = outputs.permute(0,2,3,1).reshape(N, -1, C) ### N x HW x C
