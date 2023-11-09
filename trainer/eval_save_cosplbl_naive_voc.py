@@ -56,12 +56,16 @@ class ActiveTrainer(ActiveTrainer):
                 images = batch['images'].to(self.device, dtype=torch.float32)
                 labels = batch['labels'].to(self.device, dtype=torch.long)
 
-                import pdb; pdb.set_trace()
+                # import pdb; pdb.set_trace()
                 feats, outputs = self.net.feat_forward(images)
 
                 r''' NN based pseudo label acquisition '''
                 superpixels = batch['spx'].to(self.device)
-                argmax_pseudo_label = outputs.max(dim=1)[1]
+                outputs_max = outputs.max(dim=1)
+                argmax_pseudo_label = outputs_max[1]
+                
+                ''' Set threshold to get pseudo label with more than 0.6 confidence '''
+                argmax_pseudo_label[outputs_max[0] < 0.6] = 0
 
                 output_dict = {
                     'outputs': argmax_pseudo_label,
