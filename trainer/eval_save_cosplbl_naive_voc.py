@@ -145,7 +145,7 @@ class ActiveTrainer(ActiveTrainer):
             pseudo_label (torch.Tensor): pseudo label map to be evaluated
                                          N x H x W
             '''
-        # pdb.set_trace()
+        pdb.set_trace()
         N, C, H, W = inputs.shape
         outputs = F.softmax(inputs, dim=1) ### N x C x H x W
         outputs = outputs.permute(0,2,3,1).reshape(N, -1, C) ### N x HW x C

@@ -39,7 +39,7 @@ class ActiveTrainer(BaseTrainer):
                                                 pin_memory=True,
                                                 drop_last=False)
         
-        pdb.set_trace()
+        # pdb.set_trace()
         miou, iou_table_str  = self.inference(loader=self.eval_dataset_loader, prefix='evaluation')
         ''' file logging '''
         self.logger.info('[Evaluation Result]')
