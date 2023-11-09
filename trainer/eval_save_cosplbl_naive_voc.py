@@ -9,7 +9,7 @@ from skimage.segmentation import mark_boundaries
 from skimage.morphology import binary_dilation
 from torchvision.transforms import InterpolationMode
 import torchvision.transforms.functional as tF
-import pdb
+
 
 from dataloader import get_dataset
 from dataloader.utils import DataProvider
@@ -56,7 +56,7 @@ class ActiveTrainer(ActiveTrainer):
                 images = batch['images'].to(self.device, dtype=torch.float32)
                 labels = batch['labels'].to(self.device, dtype=torch.long)
 
-                pdb.set_trace()
+                import pdb; pdb.set_trace()
                 feats, outputs = self.net.feat_forward(images)
 
                 r''' NN based pseudo label acquisition '''
