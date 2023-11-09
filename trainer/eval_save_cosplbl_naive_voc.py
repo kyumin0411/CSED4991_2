@@ -52,11 +52,11 @@ class ActiveTrainer(ActiveTrainer):
         self.net.set_return_feat()
         with torch.no_grad():
             for iteration in trange(N):
-                # pdb.set_trace()
                 batch = loader.__next__()
                 images = batch['images'].to(self.device, dtype=torch.float32)
                 labels = batch['labels'].to(self.device, dtype=torch.long)
 
+                pdb.set_trace()
                 feats, outputs = self.net.feat_forward(images)
 
                 r''' NN based pseudo label acquisition '''
