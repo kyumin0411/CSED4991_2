@@ -64,7 +64,7 @@ class ActiveTrainer(ActiveTrainer):
                 argmax_pseudo_label = outputs_max[1]
                 
                 ''' Set threshold to get pseudo label with more than 0.6 confidence '''
-                import pdb; pdb.set_trace()
+                # import pdb; pdb.set_trace()
                 argmax_pseudo_label[outputs_max[0] < 0.7] = 255
                 argmax_pseudo_label[outputs_max[0] < 0.05] = 0
 
