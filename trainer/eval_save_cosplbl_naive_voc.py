@@ -56,7 +56,6 @@ class ActiveTrainer(ActiveTrainer):
                 images = batch['images'].to(self.device, dtype=torch.float32)
                 labels = batch['labels'].to(self.device, dtype=torch.long)
 
-                # import pdb; pdb.set_trace()
                 feats, outputs = self.net.feat_forward(images)
 
                 r''' NN based pseudo label acquisition '''
@@ -65,8 +64,9 @@ class ActiveTrainer(ActiveTrainer):
                 argmax_pseudo_label = outputs_max[1]
                 
                 ''' Set threshold to get pseudo label with more than 0.6 confidence '''
+                import pdb; pdb.set_trace()
+                argmax_pseudo_label[outputs_max[0] < 0.7] = 255
                 argmax_pseudo_label[outputs_max[0] < 0.05] = 0
-                argmax_pseudo_label[0.05 <= outputs_max[0] < 0.7] = 255
 
                 output_dict = {
                     'outputs': argmax_pseudo_label,
@@ -76,7 +76,7 @@ class ActiveTrainer(ActiveTrainer):
 
                 r''' Save pseudo labels '''
                 fname = batch['fnames'][0][1]
-                if iteration == 38: import pdb; pdb.set_trace()
+                # if iteration == 38: import pdb; pdb.set_trace()
                 lbl_id = fname.split('/')[-1].split('.')[0]
                 # pdb.set_trace()
                 plbl_save = argmax_pseudo_label[0].cpu().numpy().astype('uint8')
