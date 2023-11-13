@@ -65,7 +65,8 @@ class ActiveTrainer(ActiveTrainer):
                 argmax_pseudo_label = outputs_max[1]
                 
                 ''' Set threshold to get pseudo label with more than 0.6 confidence '''
-                argmax_pseudo_label[outputs_max[0] < 0.6] = 0
+                argmax_pseudo_label[outputs_max[0] < 0.05] = 0
+                argmax_pseudo_label[0.05 <= outputs_max[0] < 0.7] = 255
 
                 output_dict = {
                     'outputs': argmax_pseudo_label,
