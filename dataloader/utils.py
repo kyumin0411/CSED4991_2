@@ -9,6 +9,7 @@ from torch.utils.data import DataLoader
 
 def collate_fn(inputs):
     # train_keys = ['images', 'labels', 'fnames', 'spx']
+    import pdb; pdb.set_trace()
     train_keys = list(inputs[0].keys())
     output_batch = {}
     for key in train_keys:
