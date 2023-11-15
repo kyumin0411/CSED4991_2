@@ -61,7 +61,6 @@ class ActiveTrainer(ActiveTrainer):
         with torch.no_grad():
             for iteration in trange(N):
                 batch = loader.__next__()
-                import pdb; pdb.set_trace()
                 images = batch['images'].to(self.device, dtype=torch.float32)
                 labels = batch['labels'].to(self.device, dtype=torch.long)
                 labels_cat = batch['label_cat'].to(self.device, dtype=torch.long)
@@ -83,18 +82,17 @@ class ActiveTrainer(ActiveTrainer):
                 }
                 iou_helper._after_step(output_dict)
 
-                r''' Save pseudo labels '''
-                fname = batch['fnames'][0][1]
-                # if iteration == 38: import pdb; pdb.set_trace()
-                lbl_id = fname.split('/')[-1].split('.')[0]
+                # r''' Save pseudo labels '''
+                # fname = batch['fnames'][0][1]
+                # # if iteration == 38: import pdb; pdb.set_trace()
+                # lbl_id = fname.split('/')[-1].split('.')[0]
 
-                import pdb; pdb.set_trace()
-                plbl_save = argmax_pseudo_label[0].cpu().numpy().astype('uint8')
+                # plbl_save = argmax_pseudo_label[0].cpu().numpy().astype('uint8')
                 im_size = batch['imsizes'][0][::-1]
-                pil_plbl_save = Image.fromarray(plbl_save)
-                assert(im_size[::-1] == list(pil_plbl_save.size))
-                pil_plbl_save = tF.resize(pil_plbl_save, im_size, InterpolationMode.NEAREST)
-                pil_plbl_save.save("{}/{}.png".format(save_dir, lbl_id))
+                # pil_plbl_save = Image.fromarray(plbl_save)
+                # assert(im_size[::-1] == list(pil_plbl_save.size))
+                # pil_plbl_save = tF.resize(pil_plbl_save, im_size, InterpolationMode.NEAREST)
+                # pil_plbl_save.save("{}/{}.png".format(save_dir, lbl_id))
 
                 valid_cat = torch.nonzero(labels_cat)[:, 0]
 
