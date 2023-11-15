@@ -20,6 +20,13 @@ r'''
 - Cosine pseudo label with maive argmax
 '''
 
+def get_strided_size(orig_size, stride):
+    return ((orig_size[0]-1)//stride+1, (orig_size[1]-1)//stride+1)
+
+def get_strided_up_size(orig_size, stride):
+    strided_size = get_strided_size(orig_size, stride)
+    return strided_size[0]*stride, strided_size[1]*stride
+
 class ActiveTrainer(ActiveTrainer):
     def __init__(self, args, logger, selection_iter):
         self.selection_iter = selection_iter
@@ -40,6 +47,7 @@ class ActiveTrainer(ActiveTrainer):
         checkpoint_dir = '/'.join(self.args.init_checkpoint.split('/')[:-1])
         if args.plbl_type is not None:
             save_dir = '{}/plbl_gen_{}/round_{}'.format(checkpoint_dir, args.plbl_type, round)
+            save_dir_npy = '{}/plbl_gen_{}/round_{}_npy'.format(checkpoint_dir, args.plbl_type, round)
         else:
             save_dir = '{}/plbl_gen/round_{}'.format(checkpoint_dir, round)
         save_vid_dir = '{}_vis'.format(save_dir)
@@ -64,7 +72,6 @@ class ActiveTrainer(ActiveTrainer):
                 argmax_pseudo_label = outputs_max[1]
                 
                 ''' Set threshold to get pseudo label with more than 0.6 confidence '''
-                # import pdb; pdb.set_trace()
                 argmax_pseudo_label[outputs_max[0] < 0.7] = 255
                 argmax_pseudo_label[outputs_max[0] < 0.05] = 0
 
@@ -78,13 +85,36 @@ class ActiveTrainer(ActiveTrainer):
                 fname = batch['fnames'][0][1]
                 # if iteration == 38: import pdb; pdb.set_trace()
                 lbl_id = fname.split('/')[-1].split('.')[0]
-                # pdb.set_trace()
+
+                import pdb; pdb.set_trace()
                 plbl_save = argmax_pseudo_label[0].cpu().numpy().astype('uint8')
                 im_size = batch['imsizes'][0][::-1]
                 pil_plbl_save = Image.fromarray(plbl_save)
                 assert(im_size[::-1] == list(pil_plbl_save.size))
                 pil_plbl_save = tF.resize(pil_plbl_save, im_size, InterpolationMode.NEAREST)
                 pil_plbl_save.save("{}/{}.png".format(save_dir, lbl_id))
+
+                valid_cat = torch.nonzero(labels)[:, 0]
+
+                strided_size = get_strided_size(im_size, 4)
+                strided_up_size = get_strided_up_size(im_size, 16)
+
+                strided_cam = torch.sum(torch.stack(
+                [F.interpolate(torch.unsqueeze(o, 0), strided_size, mode='bilinear', align_corners=False)[0] for o
+                 in outputs]), 0)
+                strided_cam = strided_cam[valid_cat]
+                strided_cam /= F.adaptive_max_pool2d(strided_cam, (1, 1)) + 1e-5
+
+                highres_cam = [F.interpolate(torch.unsqueeze(o, 1), strided_up_size,
+                                         mode='bilinear', align_corners=False) for o in outputs]
+                highres_cam = torch.sum(torch.stack(highres_cam, 0), 0)[:, 0, :im_size[0], :im_size[1]]
+                
+                highres_cam  = highres_cam[valid_cat]
+                highres_cam /= F.adaptive_max_pool2d(highres_cam, (1, 1)) + 1e-5  
+                  
+                ''' Save cam pseudo labels '''
+                np.save("{}/{}.npy".format(save_dir_npy, lbl_id), 
+                        {"keys": valid_cat, "cam": strided_cam.cpu(), "high_res": highres_cam.cpu().numpy()})
 
                 r''' Visualize pseudo labels '''
                 if args.save_vis:
