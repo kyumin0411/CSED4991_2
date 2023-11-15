@@ -83,8 +83,8 @@ class ActiveTrainer(ActiveTrainer):
                 iou_helper._after_step(output_dict)
 
                 # r''' Save pseudo labels '''
-                # fname = batch['fnames'][0][1]
-                # # if iteration == 38: import pdb; pdb.set_trace()
+                
+                fname = batch['fnames'][0][1]
                 lbl_id = fname.split('/')[-1].split('.')[0]
 
                 # plbl_save = argmax_pseudo_label[0].cpu().numpy().astype('uint8')
