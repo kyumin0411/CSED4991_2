@@ -96,7 +96,7 @@ class ActiveTrainer(ActiveTrainer):
                 pil_plbl_save = tF.resize(pil_plbl_save, im_size, InterpolationMode.NEAREST)
                 pil_plbl_save.save("{}/{}.png".format(save_dir, lbl_id))
 
-                valid_cat = torch.nonzero(labels)[:, 0]
+                valid_cat = torch.nonzero(labels_cat)[:, 0]
 
                 strided_size = get_strided_size(im_size, 4)
                 strided_up_size = get_strided_up_size(im_size, 16)
