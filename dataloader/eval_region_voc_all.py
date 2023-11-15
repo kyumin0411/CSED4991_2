@@ -6,7 +6,7 @@ import os
 import imageio
 imageio.plugins.freeimage.download()
 from . import region_voc_or_tensor
-
+import pdb
 class RegionVOCOr(region_voc_or_tensor.RegionVOCOr):
 
     def __init__(self, args, root, datalist, split='train', transform=None, return_spx=False,
@@ -24,7 +24,7 @@ class RegionVOCOr(region_voc_or_tensor.RegionVOCOr):
             self.remove_dominant = True
 
     def __getitem__(self, index):
-        import pdb; pdb.set_trace()
+        pdb.set_trace()
         img_fname, lbl_fname, spx_fname = self.im_idx[index] ### warnning: index => superpixel-wise 로 정의됨
         ''' Load image, label, and superpixel '''
         image = Image.open(img_fname).convert('RGB')
