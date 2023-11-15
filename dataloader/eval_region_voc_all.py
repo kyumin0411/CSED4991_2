@@ -7,6 +7,20 @@ import imageio
 imageio.plugins.freeimage.download()
 from . import region_voc_or_tensor
 import pdb
+
+def load_img_name_list(dataset_path):
+
+    img_name_list = np.loadtxt(dataset_path, dtype=np.int32)
+
+    return img_name_list
+
+
+cls_labels_dict = np.load('/home/kyumin/CSED4991_2/data', allow_pickle=True).item()
+
+def load_image_label_list_from_npy(img_name_list):
+
+    return np.array([cls_labels_dict[img_name] for img_name in img_name_list])
+
 class RegionVOCOr(region_voc_or_tensor.RegionVOCOr):
 
     def __init__(self, args, root, datalist, split='train', transform=None, return_spx=False,
@@ -22,9 +36,11 @@ class RegionVOCOr(region_voc_or_tensor.RegionVOCOr):
             self.remove_dominant = False
         else:
             self.remove_dominant = True
+        
+        self.img_name_list = load_img_name_list('dataloader/init_data/voc/train_seed150.txt')
+        self.label_list = load_image_label_list_from_npy(self.img_name_list)
 
     def __getitem__(self, index):
-        pdb.set_trace()
         img_fname, lbl_fname, spx_fname = self.im_idx[index] ### warnning: index => superpixel-wise 로 정의됨
         ''' Load image, label, and superpixel '''
         image = Image.open(img_fname).convert('RGB')
@@ -68,8 +84,13 @@ class RegionVOCOr(region_voc_or_tensor.RegionVOCOr):
         sp_mask = torch.isin(superpixel, valid_preserving_labels)
         # target_precise = torch.masked_fill(target_precise, torch.logical_not(sp_mask), 255)
 
+
+        ''' Add Label list '''
+
+        label_cat = torch.from_numpy(self.label_list[index])
         sample = {'images': image,
                   'labels': target_precise,
+                  'label_cat' : label_cat, 
                   'target': target,
                   'spx': superpixel,
                   'spmask': sp_mask,
