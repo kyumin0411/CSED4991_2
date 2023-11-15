@@ -85,7 +85,7 @@ class ActiveTrainer(ActiveTrainer):
                 # r''' Save pseudo labels '''
                 # fname = batch['fnames'][0][1]
                 # # if iteration == 38: import pdb; pdb.set_trace()
-                # lbl_id = fname.split('/')[-1].split('.')[0]
+                lbl_id = fname.split('/')[-1].split('.')[0]
 
                 # plbl_save = argmax_pseudo_label[0].cpu().numpy().astype('uint8')
                 im_size = batch['imsizes'][0][::-1]
