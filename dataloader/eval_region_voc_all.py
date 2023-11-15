@@ -15,7 +15,7 @@ def load_img_name_list(dataset_path):
     return img_name_list
 
 
-cls_labels_dict = np.load('/home/kyumin/CSED4991_2/data', allow_pickle=True).item()
+cls_labels_dict = np.load('/home/kyumin/CSED4991_2/data/cls_labels.npy', allow_pickle=True).item()
 
 def load_image_label_list_from_npy(img_name_list):
 
