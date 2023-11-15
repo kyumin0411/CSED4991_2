@@ -9,11 +9,10 @@ from torch.utils.data import DataLoader
 
 def collate_fn(inputs):
     # train_keys = ['images', 'labels', 'fnames', 'spx']
-    import pdb; pdb.set_trace()
     train_keys = list(inputs[0].keys())
     output_batch = {}
     for key in train_keys:
-        if key in ['images', 'image_weak', 'spx', 'spx_weak', 'spmask', 'spmask_weak', 'labels', 'spx_small', 'spx_small_weak', 'target', 'nseg_list']:
+        if key in ['images', 'image_weak', 'spx', 'spx_weak', 'spmask', 'spmask_weak', 'labels', 'spx_small', 'spx_small_weak', 'target', 'nseg_list', 'label_cat']:
             if type(inputs[0][key]).__module__ == np.__name__:
                 output_batch[key] = torch.stack([torch.from_numpy(one_batch[key]) for one_batch in inputs])
             else:

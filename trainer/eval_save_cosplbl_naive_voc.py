@@ -64,7 +64,7 @@ class ActiveTrainer(ActiveTrainer):
                 import pdb; pdb.set_trace()
                 images = batch['images'].to(self.device, dtype=torch.float32)
                 labels = batch['labels'].to(self.device, dtype=torch.long)
-                labels_cat = batch['label'].to(self.device, dtype=torch.long)
+                labels_cat = batch['label_cat'].to(self.device, dtype=torch.long)
 
                 feats, outputs = self.net.feat_forward(images)
 
